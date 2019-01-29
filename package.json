@@ -1,0 +1,26 @@
+{
+  "name": "color-library",
+  "version": "0.0.1",
+  "description": "This is my color utility library. It helps a lot to convert colors for a simple UX designer.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/clemator/color-library.git"
+  },
+  "keywords": [
+    "color",
+    "conversion",
+    "utility"
+  ],
+  "author": {
+    "name": "Clément \"Clemator\" Huon",
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/clemator/color-library/issues"
+  },
+  "homepage": "https://github.com/clemator/color-library#readme"
+}
