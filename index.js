@@ -1,4 +1,4 @@
-import rgb from './rgb'
+import rgb from './src/rgb'
 
 (function(window) {
   const colorFactory = type => {
