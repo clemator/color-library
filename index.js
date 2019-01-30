@@ -1,4 +1,5 @@
 import rgb from './src/rgb'
+import hex from './src/hex'
 
 (function(window) {
   const colorFactory = type => {
@@ -8,4 +9,5 @@ import rgb from './src/rgb'
   }
 
   window.RGB = colorFactory(rgb)
+  window.HEX = colorFactory(hex)
 })(window)
