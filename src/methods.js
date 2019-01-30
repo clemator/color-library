@@ -1,12 +1,12 @@
+const decimalToHex = (dec) => {
+  const valToStr = dec.toString(16)
+  return (valToStr.length % 2) ? ('0' + valToStr) : valToStr
+}
+
 const rgbToHex = (value) => {
-  let hexString = '';
-
-  Array.from(value, (val) => {
-    const valToStr = val.toString(16)
-    hexString += (valToStr.length % 2) ? ('0' + valToStr) : valToStr
-  })
-
-  return hexString.toUpperCase()
+  return Array.from(value, decimalToHex)
+    .join('')
+    .toUpperCase()
 }
 
 const hexToRgb = (value) => {
