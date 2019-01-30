@@ -8,6 +8,7 @@ const hexPrototype = (hex) => {
     format: 'hex',
     set(hexVal) {
       value = hexVal
+      return this
     },
     get() {
       return value;

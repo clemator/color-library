@@ -8,6 +8,7 @@ const rgbPrototype = (r, g, b) => {
     format: 'rgb',
     set(r, g, b) {
       value = [r, g, b]
+      return this
     },
     get() {
       return value;
