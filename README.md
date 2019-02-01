@@ -14,25 +14,21 @@ Working on:
   * Xyz
 
 ## Installation
----
 ```javascript
 npm install
 ```
 
 ## Build
----
 ```javascript
 npm run build
 ```
 
 ## Test
----
 ```javascript
 npm run test
 ```
 
 ## Develop
----
 ```javascript
 npm run start
 ```
