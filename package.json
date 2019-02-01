@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "This is my color utility library. It helps a lot to convert colors for a simple UX designer.",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server",
+    "build": "WEBPACK_ENV=build webpack",
+    "start": "WEBPACK_ENV=dev webpack && webpack-dev-server",
     "test": "mocha"
   },
   "repository": {

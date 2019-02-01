@@ -1,12 +1,23 @@
-const path = require('path');
+const path = require('path')
+const env = process.env.WEBPACK_ENV
+const libraryName = 'color-library'
+
+let outputFile = ''
+
+if (env === 'build') {
+  outputFile = libraryName + '.min.js';
+} else {
+  outputFile = libraryName + '.js';
+}
 
 module.exports = {
+  devtool: 'source-map',
   entry: './index.js',
   output: {
-    filename: 'main.js',
+    filename: outputFile,
     path: path.resolve(__dirname, 'dist')
   },
-  mode: 'development',
+  mode: (env === 'build' ? 'production' : 'development'),
   module: {
     rules: [
       {
