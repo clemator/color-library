@@ -95,23 +95,20 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _src_colorFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/colorFactory */ "./src/colorFactory.js");
-/* harmony import */ var _src_colorFactory__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_src_colorFactory__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_rgbFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/rgbFactory */ "./src/rgbFactory.js");
-/* harmony import */ var _src_rgbFactory__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_src_rgbFactory__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_hexFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./src/hexFactory */ "./src/hexFactory.js");
-/* harmony import */ var _src_hexFactory__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_src_hexFactory__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _src_hslFactory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./src/hslFactory */ "./src/hslFactory.js");
-/* harmony import */ var _src_hslFactory__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_src_hslFactory__WEBPACK_IMPORTED_MODULE_3__);
-
+/* harmony import */ var _src_rgbFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/rgbFactory */ "./src/rgbFactory.js");
+/* harmony import */ var _src_rgbFactory__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_src_rgbFactory__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _src_hexFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/hexFactory */ "./src/hexFactory.js");
+/* harmony import */ var _src_hexFactory__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_src_hexFactory__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _src_hslFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./src/hslFactory */ "./src/hslFactory.js");
+/* harmony import */ var _src_hslFactory__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_src_hslFactory__WEBPACK_IMPORTED_MODULE_2__);
 
 
 
 
 (function (window) {
-  window.RGB = _src_colorFactory__WEBPACK_IMPORTED_MODULE_0___default()(_src_rgbFactory__WEBPACK_IMPORTED_MODULE_1___default.a);
-  window.HEX = _src_colorFactory__WEBPACK_IMPORTED_MODULE_0___default()(_src_hexFactory__WEBPACK_IMPORTED_MODULE_2___default.a);
-  window.HSL = _src_colorFactory__WEBPACK_IMPORTED_MODULE_0___default()(_src_hslFactory__WEBPACK_IMPORTED_MODULE_3___default.a);
+  window.RGB = _src_rgbFactory__WEBPACK_IMPORTED_MODULE_0___default.a;
+  window.HEX = _src_hexFactory__WEBPACK_IMPORTED_MODULE_1___default.a;
+  window.HSL = _src_hslFactory__WEBPACK_IMPORTED_MODULE_2___default.a;
 })(window);
 
 /***/ }),
@@ -136,6 +133,15 @@ var decimalToHex = function decimalToHex(dec) {
   return valToStr.length % 2 ? '0' + valToStr : valToStr;
 };
 
+var hue2rgb = function hue2rgb(p, q, t) {
+  if (t < 0) t += 1;
+  if (t > 1) t -= 1;
+  if (t < 1 / 6) return p + (q - p) * 6 * t;
+  if (t < 1 / 2) return q;
+  if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+  return p;
+};
+
 var rgbToHex = function rgbToHex(value) {
   return Array.from(value, decimalToHex).join('').toUpperCase();
 };
@@ -157,8 +163,8 @@ var rgbToHsl = function rgbToHsl(value) {
   var r = transformedValue[0];
   var g = transformedValue[1];
   var b = transformedValue[2];
-  var max = Math.max.apply(Math, _toConsumableArray(value));
-  var min = Math.min.apply(Math, _toConsumableArray(value));
+  var max = Math.max.apply(Math, _toConsumableArray(transformedValue));
+  var min = Math.min.apply(Math, _toConsumableArray(transformedValue));
   l = (max + min) / 2;
 
   if (max !== min) {
@@ -185,17 +191,36 @@ var rgbToHsl = function rgbToHsl(value) {
   return [h, s, l];
 };
 
+var hslToRgb = function hslToRgb(value) {
+  var h = value[0];
+  var s = value[1];
+  var l = value[2];
+  var r = l;
+  var g = l;
+  var b = l;
+
+  if (s !== 0) {
+    var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    var p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1 / 3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1 / 3);
+  }
+
+  return [r * 255, g * 255, b * 255];
+};
+
 var publicMethods = {
   toHex: function toHex() {
-    if (this.format === 'rgb') return rgbToHex(this.get());
+    if (this.format === 'rgb') return rgbToHex(this.get());else if (this.format === 'hsl') return rgbToHex(hexToRgb(this.get()));
     return '#' + this.get();
   },
   toRgb: function toRgb() {
-    if (this.format === 'hex') return hexToRgb(this.get());
+    if (this.format === 'hex') return hexToRgb(this.get());else if (this.format === 'hsl') return hslToRgb(this.get());
     return this.toString();
   },
   toHsl: function toHsl() {
-    if (this.format === 'rgb') return rgbToHsl(this.get());
+    if (this.format === 'rgb') return rgbToHsl(this.get());else if (this.format === 'hex') return rgbToHsl(hexToRgb(this.get()));
     return this.toString();
   }
 };
@@ -289,7 +314,7 @@ var valueChecking = function valueChecking(h, s, l) {
     var hueValue = typeof h === 'number' && h >= 0 && h <= 1 ? h : undefined;
     var saturationValue = typeof s === 'number' && s >= 0 && s <= 1 ? s : undefined;
     var lightnessValue = typeof l === 'number' && l >= 0 && l <= 1 ? l : undefined;
-    if (typeof redValue === 'undefined' || typeof greenValue === 'undefined' || typeof blueValue === 'undefined') throw Error('HSL value supports only a number between 0 and 1');
+    if (typeof hueValue === 'undefined' || typeof saturationValue === 'undefined' || typeof lightnessValue === 'undefined') throw Error('HSL value supports only a number between 0 and 1');
     return [h, s, l];
   } catch (e) {
     console.error(e.toString());
@@ -330,6 +355,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var api = __webpack_require__(/*! ./api */ "./src/api.js");
 
+var colorFactory = __webpack_require__(/*! ./colorFactory */ "./src/colorFactory.js");
+
 var valueChecking = function valueChecking(r, g, b) {
   try {
     if (typeof r === 'undefined' || typeof g === 'undefined' || typeof b === 'undefined') throw Error('RGB value is missing one or many arguments');
@@ -360,7 +387,7 @@ var rgbPrototype = function rgbPrototype(r, g, b) {
   });
 };
 
-module.exports = rgbPrototype;
+module.exports = colorFactory(rgbPrototype);
 
 /***/ })
 

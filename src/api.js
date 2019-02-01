@@ -17,24 +17,22 @@ const hue2rgb = (p, q, t) => {
   return p
 }
 
-const rgbToHex = (value) => {
-  return Array.from(value, decimalToHex)
-    .join('')
-    .toUpperCase()
+const rgbToHex = (ref) => {
+  return HEX(Array.from(ref.get(), decimalToHex).join('').toUpperCase())
 }
 
-const hexToRgb = (value) => {
-  const explodedValue = value.match(/.{1,2}/g)
+const hexToRgb = (ref) => {
+  const explodedValue = ref.get().match(/.{1,2}/g)
 
-  return Array.from(explodedValue, (val) => parseInt(val, 16))
+  return RGB(Array.from(explodedValue, (val) => parseInt(val, 16)))
 }
 
-const rgbToHsl = (value) => {
+const rgbToHsl = (ref) => {
   let h = 0
   let s = 0
   let l
 
-  const transformedValue = value.map(v => v / 255)
+  const transformedValue = ref.get().map(v => v / 255)
   const r = transformedValue[0]
   const g = transformedValue[1]
   const b = transformedValue[2]
@@ -64,13 +62,13 @@ const rgbToHsl = (value) => {
   }
 
 
-  return [h, s, l]
+  return HSL(h, s, l)
 }
 
-const hslToRgb = (value) => {
-  const h = value[0]
-  const s = value[1]
-  const l = value[2]
+const hslToRgb = (ref) => {
+  const h = ref.get()[0]
+  const s = ref.get()[1]
+  const l = ref.get()[2]
   let r = l
   let g = l
   let b = l
@@ -84,30 +82,30 @@ const hslToRgb = (value) => {
     b = hue2rgb(p, q, h - 1/3)
   }
 
-  return [r * 255, g * 255, b * 255]
+  return RGB(r * 255, g * 255, b * 255)
 }
 
 const publicMethods = {
   toHex: function() {
     if (this.format === 'rgb')
-      return rgbToHex(this.get())
+      return rgbToHex(this)
     else if (this.format === 'hsl')
-      return rgbToHex(hexToRgb(this.get()))
-    return '#' + this.get()
+      return rgbToHex(hslToRgb(this))
+    return this
   },
   toRgb: function() {
     if (this.format === 'hex')
-      return hexToRgb(this.get())
+      return hexToRgb(this)
     else if (this.format === 'hsl')
-      return hslToRgb(this.get())
-    return this.toString()
+      return hslToRgb(this)
+    return this
   },
   toHsl: function() {
     if (this.format === 'rgb')
-      return rgbToHsl(this.get())
+      return rgbToHsl(this)
     else if (this.format === 'hex')
-      return rgbToHsl(hexToRgb(this.get()))
-    return this.toString()
+      return rgbToHsl(hexToRgb(this))
+    return this
   }
 }
 

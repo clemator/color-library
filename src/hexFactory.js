@@ -1,4 +1,5 @@
 const api = require('./api')
+const colorFactory = require('./colorFactory')
 const authorizedValueList = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
 
 const valueChecking = (v) => {
@@ -40,4 +41,4 @@ const hexPrototype = (hex) => {
   }
 }
 
-module.exports = hexPrototype
+module.exports = colorFactory(hexPrototype)

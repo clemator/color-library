@@ -1,4 +1,5 @@
 const api = require('./api')
+const colorFactory = require('./colorFactory')
 
 const valueChecking = (h, s, l) => {
   try {
@@ -38,4 +39,4 @@ const hslPrototype = (h, s, l) => {
   }
 }
 
-module.exports = hslPrototype
+module.exports = colorFactory(hslPrototype)
