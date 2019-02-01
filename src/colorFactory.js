@@ -4,4 +4,4 @@ const colorFactory = type => {
   }
 }
 
-module.exports = colorFactory
+export default colorFactory

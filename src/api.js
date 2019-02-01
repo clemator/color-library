@@ -1,6 +1,6 @@
-const RGB = require('./rgbFactory')
-const HEX = require('./hexFactory')
-const HSL = require('./hslFactory')
+import RGB from './rgbFactory'
+import HEX from './hexFactory'
+import HSL from './hslFactory'
 
 const decimalToHex = (dec) => {
   const valToStr = dec.toString(16)
@@ -112,4 +112,4 @@ const publicMethods = {
   }
 }
 
-module.exports = publicMethods
+export default publicMethods

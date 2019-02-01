@@ -1,5 +1,5 @@
-const api = require('./api')
-const colorFactory = require('./colorFactory')
+import api from './api'
+import colorFactory from './colorFactory'
 
 const valueChecking = (h, s, l) => {
   try {
@@ -42,4 +42,4 @@ const hslPrototype = (h, s, l) => {
   }
 }
 
-module.exports = colorFactory(hslPrototype)
+export default colorFactory(hslPrototype)

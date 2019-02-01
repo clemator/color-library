@@ -90,22 +90,58 @@
 /*!******************!*\
   !*** ./index.js ***!
   \******************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-var rgb = __webpack_require__(/*! ./src/rgbFactory */ "./src/rgbFactory.js");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* WEBPACK VAR INJECTION */(function(module) {/* harmony import */ var _src_rgbFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/rgbFactory */ "./src/rgbFactory.js");
+/* harmony import */ var _src_hexFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/hexFactory */ "./src/hexFactory.js");
+/* harmony import */ var _src_hslFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./src/hslFactory */ "./src/hslFactory.js");
 
-var hex = __webpack_require__(/*! ./src/hexFactory */ "./src/hexFactory.js");
 
-var hsl = __webpack_require__(/*! ./src/hslFactory */ "./src/hslFactory.js");
 
 module.exports = {
-  'color-library': {
-    RGB: rgb,
-    HEX: hex,
-    HSL: hsl
-  }
+  RGB: _src_rgbFactory__WEBPACK_IMPORTED_MODULE_0__["default"],
+  HEX: _src_hexFactory__WEBPACK_IMPORTED_MODULE_1__["default"],
+  HSL: _src_hslFactory__WEBPACK_IMPORTED_MODULE_2__["default"]
 };
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/webpack/buildin/harmony-module.js */ "./node_modules/webpack/buildin/harmony-module.js")(module)))
+
+/***/ }),
+
+/***/ "./node_modules/webpack/buildin/harmony-module.js":
+/*!*******************************************!*\
+  !*** (webpack)/buildin/harmony-module.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = function(originalModule) {
+	if (!originalModule.webpackPolyfill) {
+		var module = Object.create(originalModule);
+		// module.parent = undefined by default
+		if (!module.children) module.children = [];
+		Object.defineProperty(module, "loaded", {
+			enumerable: true,
+			get: function() {
+				return module.l;
+			}
+		});
+		Object.defineProperty(module, "id", {
+			enumerable: true,
+			get: function() {
+				return module.i;
+			}
+		});
+		Object.defineProperty(module, "exports", {
+			enumerable: true
+		});
+		module.webpackPolyfill = 1;
+	}
+	return module;
+};
+
 
 /***/ }),
 
@@ -113,9 +149,14 @@ module.exports = {
 /*!********************!*\
   !*** ./src/api.js ***!
   \********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _rgbFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./rgbFactory */ "./src/rgbFactory.js");
+/* harmony import */ var _hexFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./hexFactory */ "./src/hexFactory.js");
+/* harmony import */ var _hslFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./hslFactory */ "./src/hslFactory.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
@@ -124,11 +165,10 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
-var RGB = __webpack_require__(/*! ./rgbFactory */ "./src/rgbFactory.js");
 
-var HEX = __webpack_require__(/*! ./hexFactory */ "./src/hexFactory.js");
 
-var HSL = __webpack_require__(/*! ./hslFactory */ "./src/hslFactory.js");
+
+console.log(_rgbFactory__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 var decimalToHex = function decimalToHex(dec) {
   var valToStr = dec.toString(16);
@@ -145,12 +185,12 @@ var hue2rgb = function hue2rgb(p, q, t) {
 };
 
 var rgbToHex = function rgbToHex(ref) {
-  return HEX(Array.from(ref.get(), decimalToHex).join('').toUpperCase());
+  return Object(_hexFactory__WEBPACK_IMPORTED_MODULE_1__["default"])(Array.from(ref.get(), decimalToHex).join('').toUpperCase());
 };
 
 var hexToRgb = function hexToRgb(ref) {
   var explodedValue = ref.get().match(/.{1,2}/g);
-  return RGB.apply(void 0, _toConsumableArray(Array.from(explodedValue, function (val) {
+  return _rgbFactory__WEBPACK_IMPORTED_MODULE_0__["default"].apply(void 0, _toConsumableArray(Array.from(explodedValue, function (val) {
     return parseInt(val, 16);
   })));
 };
@@ -190,7 +230,7 @@ var rgbToHsl = function rgbToHsl(ref) {
     h /= 6;
   }
 
-  return HSL(h, s, l);
+  return Object(_hslFactory__WEBPACK_IMPORTED_MODULE_2__["default"])(h, s, l);
 };
 
 var hslToRgb = function hslToRgb(ref) {
@@ -209,7 +249,7 @@ var hslToRgb = function hslToRgb(ref) {
     b = hue2rgb(p, q, h - 1 / 3);
   }
 
-  return RGB(r * 255, g * 255, b * 255);
+  return Object(_rgbFactory__WEBPACK_IMPORTED_MODULE_0__["default"])(r * 255, g * 255, b * 255);
 };
 
 var publicMethods = {
@@ -226,7 +266,7 @@ var publicMethods = {
     return this;
   }
 };
-module.exports = publicMethods;
+/* harmony default export */ __webpack_exports__["default"] = (publicMethods);
 
 /***/ }),
 
@@ -234,16 +274,18 @@ module.exports = publicMethods;
 /*!*****************************!*\
   !*** ./src/colorFactory.js ***!
   \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
 var colorFactory = function colorFactory(type) {
   return function () {
     return Object.create(type.apply(void 0, arguments));
   };
 };
 
-module.exports = colorFactory;
+/* harmony default export */ __webpack_exports__["default"] = (colorFactory);
 
 /***/ }),
 
@@ -251,16 +293,18 @@ module.exports = colorFactory;
 /*!***************************!*\
   !*** ./src/hexFactory.js ***!
   \***************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./src/api.js");
+/* harmony import */ var _colorFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./colorFactory */ "./src/colorFactory.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var api = __webpack_require__(/*! ./api */ "./src/api.js");
 
-var colorFactory = __webpack_require__(/*! ./colorFactory */ "./src/colorFactory.js");
 
 var authorizedValueList = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
 
@@ -281,7 +325,7 @@ var valueChecking = function valueChecking(v) {
 var hexPrototype = function hexPrototype(hex) {
   var value = valueChecking(hex);
   var _format = 'hex';
-  return _objectSpread({}, api, {
+  return _objectSpread({}, _api__WEBPACK_IMPORTED_MODULE_0__["default"], {
     format: function format() {
       return _format;
     },
@@ -298,7 +342,7 @@ var hexPrototype = function hexPrototype(hex) {
   });
 };
 
-module.exports = colorFactory(hexPrototype);
+/* harmony default export */ __webpack_exports__["default"] = (Object(_colorFactory__WEBPACK_IMPORTED_MODULE_1__["default"])(hexPrototype));
 
 /***/ }),
 
@@ -306,16 +350,19 @@ module.exports = colorFactory(hexPrototype);
 /*!***************************!*\
   !*** ./src/hslFactory.js ***!
   \***************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./src/api.js");
+/* harmony import */ var _colorFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./colorFactory */ "./src/colorFactory.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var api = __webpack_require__(/*! ./api */ "./src/api.js");
 
-var colorFactory = __webpack_require__(/*! ./colorFactory */ "./src/colorFactory.js");
+
 
 var valueChecking = function valueChecking(h, s, l) {
   try {
@@ -333,7 +380,7 @@ var valueChecking = function valueChecking(h, s, l) {
 var hslPrototype = function hslPrototype(h, s, l) {
   var value = valueChecking(h, s, l);
   var _format = 'hsl';
-  return _objectSpread({}, api, {
+  return _objectSpread({}, _api__WEBPACK_IMPORTED_MODULE_0__["default"], {
     format: function format() {
       return _format;
     },
@@ -350,7 +397,7 @@ var hslPrototype = function hslPrototype(h, s, l) {
   });
 };
 
-module.exports = colorFactory(hslPrototype);
+/* harmony default export */ __webpack_exports__["default"] = (Object(_colorFactory__WEBPACK_IMPORTED_MODULE_1__["default"])(hslPrototype));
 
 /***/ }),
 
@@ -358,16 +405,19 @@ module.exports = colorFactory(hslPrototype);
 /*!***************************!*\
   !*** ./src/rgbFactory.js ***!
   \***************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./src/api.js");
+/* harmony import */ var _colorFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./colorFactory */ "./src/colorFactory.js");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var api = __webpack_require__(/*! ./api */ "./src/api.js");
 
-var colorFactory = __webpack_require__(/*! ./colorFactory */ "./src/colorFactory.js");
+
 
 var valueChecking = function valueChecking(r, g, b) {
   try {
@@ -385,7 +435,7 @@ var valueChecking = function valueChecking(r, g, b) {
 var rgbPrototype = function rgbPrototype(r, g, b) {
   var value = valueChecking(r, g, b);
   var _format = 'rgb';
-  return _objectSpread({}, api, {
+  return _objectSpread({}, _api__WEBPACK_IMPORTED_MODULE_0__["default"], {
     format: function format() {
       return _format;
     },
@@ -402,7 +452,7 @@ var rgbPrototype = function rgbPrototype(r, g, b) {
   });
 };
 
-module.exports = colorFactory(rgbPrototype);
+/* harmony default export */ __webpack_exports__["default"] = (Object(_colorFactory__WEBPACK_IMPORTED_MODULE_1__["default"])(rgbPrototype));
 
 /***/ })
 

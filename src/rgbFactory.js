@@ -1,5 +1,5 @@
-const api = require('./api')
-const colorFactory = require('./colorFactory')
+import api from './api'
+import colorFactory from './colorFactory'
 
 const valueChecking = (r, g, b) => {
   try {
@@ -42,4 +42,4 @@ const rgbPrototype = (r, g, b) => {
   }
 }
 
-module.exports = colorFactory(rgbPrototype)
+export default colorFactory(rgbPrototype)
