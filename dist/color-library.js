@@ -101,6 +101,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _src_rgbFactory__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_src_rgbFactory__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _src_hexFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./src/hexFactory */ "./src/hexFactory.js");
 /* harmony import */ var _src_hexFactory__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_src_hexFactory__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _src_hslFactory__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./src/hslFactory */ "./src/hslFactory.js");
+/* harmony import */ var _src_hslFactory__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_src_hslFactory__WEBPACK_IMPORTED_MODULE_3__);
+
 
 
 
@@ -108,6 +111,7 @@ __webpack_require__.r(__webpack_exports__);
 (function (window) {
   window.RGB = _src_colorFactory__WEBPACK_IMPORTED_MODULE_0___default()(_src_rgbFactory__WEBPACK_IMPORTED_MODULE_1___default.a);
   window.HEX = _src_colorFactory__WEBPACK_IMPORTED_MODULE_0___default()(_src_hexFactory__WEBPACK_IMPORTED_MODULE_2___default.a);
+  window.HSL = _src_colorFactory__WEBPACK_IMPORTED_MODULE_0___default()(_src_hslFactory__WEBPACK_IMPORTED_MODULE_3___default.a);
 })(window);
 
 /***/ }),
@@ -118,6 +122,14 @@ __webpack_require__.r(__webpack_exports__);
   \********************/
 /*! no static exports found */
 /***/ (function(module, exports) {
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 var decimalToHex = function decimalToHex(dec) {
   var valToStr = dec.toString(16);
@@ -135,6 +147,44 @@ var hexToRgb = function hexToRgb(value) {
   });
 };
 
+var rgbToHsl = function rgbToHsl(value) {
+  var h = 0;
+  var s = 0;
+  var l;
+  var transformedValue = value.map(function (v) {
+    return v / 255;
+  });
+  var r = transformedValue[0];
+  var g = transformedValue[1];
+  var b = transformedValue[2];
+  var max = Math.max.apply(Math, _toConsumableArray(value));
+  var min = Math.min.apply(Math, _toConsumableArray(value));
+  l = (max + min) / 2;
+
+  if (max !== min) {
+    var d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+
+      case g:
+        h = (b - r) / d + 2;
+        break;
+
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+
+    h /= 6;
+  }
+
+  return [h, s, l];
+};
+
 var publicMethods = {
   toHex: function toHex() {
     if (this.format === 'rgb') return rgbToHex(this.get());
@@ -142,6 +192,10 @@ var publicMethods = {
   },
   toRgb: function toRgb() {
     if (this.format === 'hex') return hexToRgb(this.get());
+    return this.toString();
+  },
+  toHsl: function toHsl() {
+    if (this.format === 'rgb') return rgbToHsl(this.get());
     return this.toString();
   }
 };
@@ -179,13 +233,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var api = __webpack_require__(/*! ./api */ "./src/api.js");
 
+var authorizedValueList = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
+
+var valueChecking = function valueChecking(v) {
+  try {
+    var value = typeof v === 'string' && (v.length === 3 || v.length === 6) ? v : undefined;
+    if (typeof value === 'undefined') throw Error('HEX value supports only 6 or 3 chars length');
+    var checkValue = Array.from(value).find(function (val) {
+      return authorizedValueList.indexOf(val) === -1;
+    });
+    if (typeof checkValue !== 'undefined') throw Error("HEX value ".concat(checkValue, " is invalid"));
+    return value;
+  } catch (e) {
+    console.error(e.toString());
+  }
+};
+
 var hexPrototype = function hexPrototype(hex) {
-  var value = hex.length === 3 || hex.length === 6 ? hex : undefined;
-  if (typeof value === 'undefined') throw Error('ERROR');
+  var value = valueChecking(hex);
   return _objectSpread({}, api, {
     format: 'hex',
     set: function set(hexVal) {
-      value = hexVal;
+      value = valueChecking(hexVal);
       return this;
     },
     get: function get() {
@@ -198,6 +267,53 @@ var hexPrototype = function hexPrototype(hex) {
 };
 
 module.exports = hexPrototype;
+
+/***/ }),
+
+/***/ "./src/hslFactory.js":
+/*!***************************!*\
+  !*** ./src/hslFactory.js ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+var api = __webpack_require__(/*! ./api */ "./src/api.js");
+
+var valueChecking = function valueChecking(h, s, l) {
+  try {
+    if (typeof h === 'undefined' || typeof s === 'undefined' || typeof l === 'undefined') throw Error('HSL value is missing one or many arguments');
+    var hueValue = typeof h === 'number' && h >= 0 && h <= 1 ? h : undefined;
+    var saturationValue = typeof s === 'number' && s >= 0 && s <= 1 ? s : undefined;
+    var lightnessValue = typeof l === 'number' && l >= 0 && l <= 1 ? l : undefined;
+    if (typeof redValue === 'undefined' || typeof greenValue === 'undefined' || typeof blueValue === 'undefined') throw Error('HSL value supports only a number between 0 and 1');
+    return [h, s, l];
+  } catch (e) {
+    console.error(e.toString());
+  }
+};
+
+var hslPrototype = function hslPrototype(h, s, l) {
+  var value = valueChecking(h, s, l);
+  return _objectSpread({}, api, {
+    format: 'hsl',
+    set: function set(h, s, l) {
+      value = valueChecking(h, s, l);
+      return this;
+    },
+    get: function get() {
+      return value;
+    },
+    toString: function toString() {
+      return "".concat(this.format, "(").concat(this.get().join(', '), ")");
+    }
+  });
+};
+
+module.exports = hslPrototype;
 
 /***/ }),
 
@@ -214,12 +330,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var api = __webpack_require__(/*! ./api */ "./src/api.js");
 
+var valueChecking = function valueChecking(r, g, b) {
+  try {
+    if (typeof r === 'undefined' || typeof g === 'undefined' || typeof b === 'undefined') throw Error('RGB value is missing one or many arguments');
+    var redValue = typeof r === 'number' && r >= 0 && r <= 255 ? r : undefined;
+    var greenValue = typeof g === 'number' && g >= 0 && g <= 255 ? g : undefined;
+    var blueValue = typeof b === 'number' && b >= 0 && b <= 255 ? b : undefined;
+    if (typeof redValue === 'undefined' || typeof greenValue === 'undefined' || typeof blueValue === 'undefined') throw Error('RGB value supports only a number between 0 and 255');
+    return [r, g, b];
+  } catch (e) {
+    console.error(e.toString());
+  }
+};
+
 var rgbPrototype = function rgbPrototype(r, g, b) {
-  var value = [r, g, b];
+  var value = valueChecking(r, g, b);
   return _objectSpread({}, api, {
     format: 'rgb',
     set: function set(r, g, b) {
-      value = [r, g, b];
+      value = valueChecking(r, g, b);
       return this;
     },
     get: function get() {

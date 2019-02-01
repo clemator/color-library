@@ -9,7 +9,7 @@ const valueChecking = (h, s, l) => {
     const saturationValue = (typeof s === 'number' && s >= 0 && s <= 1) ? s : undefined
     const lightnessValue = (typeof l === 'number' && l >= 0 && l <= 1) ? l : undefined
 
-    if (typeof redValue === 'undefined' || typeof greenValue === 'undefined' || typeof blueValue === 'undefined')
+    if (typeof hueValue === 'undefined' || typeof saturationValue === 'undefined' || typeof lightnessValue === 'undefined')
       throw Error('HSL value supports only a number between 0 and 1')
 
     return [h, s, l]
