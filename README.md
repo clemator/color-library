@@ -73,6 +73,7 @@ const blue = HSL(0.666, 1, 0.5).get()      //-> [0.666, 1, 0.5]
 
 ### .set()
 *Chainable*
+
 Set the color value:
 ```javscript
 const blue = RGB(255, 0, 0).set(0, 0, 255)
@@ -90,6 +91,7 @@ const blue = HSL(0.666, 1, 0.5).format()   //-> "hsl"
 
 ### .toRgb()
 *Chainable*
+
 Get color value to RGB format:
 ```javscript
 var red = HEX('FF0000').toRgb().get()      //-> [255, 0, 0]
@@ -97,6 +99,7 @@ var red = HEX('FF0000').toRgb().get()      //-> [255, 0, 0]
 
 ### .toHex()
 *Chainable*
+
 Get color value to HEX format:
 ```javscript
 var red = HSL(0, 0.5, 1).toHex().get()     //-> 'FF0000'
@@ -104,6 +107,7 @@ var red = HSL(0, 0.5, 1).toHex().get()     //-> 'FF0000'
 
 ### .toHsl()
 *Chainable*
+
 Get color value to HSL format:
 ```javscript
 var red = RGB(255, 0, 0).toHsl().get()     //-> [0, 0.5, 1]
