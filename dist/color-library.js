@@ -180,7 +180,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var api = __webpack_require__(/*! ./api */ "./src/api.js");
 
 var hexPrototype = function hexPrototype(hex) {
-  var value = hex;
+  var value = hex.length === 3 || hex.length === 6 ? hex : undefined;
+  if (typeof value === 'undefined') throw Error('ERROR');
   return _objectSpread({}, api, {
     format: 'hex',
     set: function set(hexVal) {

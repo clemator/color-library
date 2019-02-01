@@ -19,7 +19,8 @@
   "author": {
     "name": "Clément \"Clemator\" Huon"
   },
-  "license": "ISC",
+  "license": "MIT",
+  "git": "https://github.com/clemator/color-library",
   "bugs": {
     "url": "https://github.com/clemator/color-library/issues"
   },

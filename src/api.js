@@ -15,6 +15,13 @@ const hexToRgb = (value) => {
   return Array.from(explodedValue, (val) => parseInt(val, 16))
 }
 
+const rgbToHsl = (value) => {
+  const transformedValue = value.map(v => v / 255)
+  console.log(value)
+  console.log(transformedValue)
+  return ''
+}
+
 const publicMethods = {
   toHex: function() {
     if (this.format === 'rgb')
@@ -24,6 +31,11 @@ const publicMethods = {
   toRgb: function() {
     if (this.format === 'hex')
       return hexToRgb(this.get())
+    return this.toString()
+  },
+  toHsl: function() {
+    if (this.format === 'rgb')
+      return rgbToHsl(this.get())
     return this.toString()
   }
 }
