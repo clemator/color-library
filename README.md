@@ -92,19 +92,19 @@ const blue = HSL(0.666, 1, 0.5).format()   //-> "hsl"
 *Chainable*
 Get color value to RGB format:
 ```javscript
-var red = HEX('FF0000').toRgb()            //-> [255, 0, 0]
+var red = HEX('FF0000').toRgb().get()      //-> [255, 0, 0]
 ```
 
 ### .toHex()
 *Chainable*
 Get color value to HEX format:
 ```javscript
-var red = HSL(0, 0.5, 1).toHex()           //-> 'FF0000'
+var red = HSL(0, 0.5, 1).toHex().get()     //-> 'FF0000'
 ```
 
 ### .toHsl()
 *Chainable*
 Get color value to HSL format:
 ```javscript
-var red = RGB(255, 0, 0).toHsl()           //-> [0, 0.5, 1]
+var red = RGB(255, 0, 0).toHsl().get()     //-> [0, 0.5, 1]
 ```
