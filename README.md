@@ -13,22 +13,22 @@ Supported formats:
 Working on:
   * Xyz
 
-## Installation
+### Installation
 ```javascript
 npm install
 ```
 
-## Build
+### Build
 ```javascript
 npm run build
 ```
 
-## Test
+### Test
 ```javascript
 npm run test
 ```
 
-## Develop
+### Develop
 ```javascript
 npm run start
 ```
