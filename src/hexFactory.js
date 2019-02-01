@@ -1,10 +1,10 @@
-const methods = require('./methods')
+const api = require('./api')
 
 const hexPrototype = (hex) => {
   let value = hex
 
   return {
-    ...methods,
+    ...api,
     format: 'hex',
     set(hexVal) {
       value = hexVal

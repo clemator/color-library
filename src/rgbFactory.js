@@ -1,10 +1,10 @@
-const methods = require('./methods')
+const api = require('./api')
 
 const rgbPrototype = (r, g, b) => {
   let value = [r, g, b]
 
   return {
-    ...methods,
+    ...api,
     format: 'rgb',
     set(r, g, b) {
       value = [r, g, b]

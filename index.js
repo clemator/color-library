@@ -1,6 +1,6 @@
-import colorFactory from './src/factory'
-import rgb from './src/rgb'
-import hex from './src/hex'
+import colorFactory from './src/colorFactory'
+import rgb from './src/rgbFactory'
+import hex from './src/hexFactory'
 
 (function(window) {
   window.RGB = colorFactory(rgb)
