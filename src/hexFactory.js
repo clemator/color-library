@@ -24,10 +24,13 @@ const valueChecking = (v) => {
 
 const hexPrototype = (hex) => {
   let value = valueChecking(hex)
+  const format = 'hex'
 
   return {
     ...api,
-    format: 'hex',
+    format() {
+      return format
+    },
     set(hexVal) {
       value = valueChecking(hexVal)
       return this

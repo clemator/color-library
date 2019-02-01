@@ -22,10 +22,13 @@ const valueChecking = (h, s, l) => {
 
 const hslPrototype = (h, s, l) => {
   let value = valueChecking(h, s, l)
+  const format = 'hsl'
 
   return {
     ...api,
-    format: 'hsl',
+    format() {
+      return format
+    },
     set(h, s, l) {
       value = valueChecking(h, s, l)
       return this
@@ -34,7 +37,7 @@ const hslPrototype = (h, s, l) => {
       return value;
     },
     toString() {
-      return `${this.format}(${this.get().join(', ')})`
+      return `${this.format()}(${this.get().join(', ')})`
     }
   }
 }

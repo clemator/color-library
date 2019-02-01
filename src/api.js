@@ -1,3 +1,7 @@
+const RGB = require('./rgbFactory')
+const HEX = require('./hexFactory')
+const HSL = require('./hslFactory')
+
 const decimalToHex = (dec) => {
   const valToStr = dec.toString(16)
   return (valToStr.length % 2) ? ('0' + valToStr) : valToStr
@@ -24,7 +28,7 @@ const rgbToHex = (ref) => {
 const hexToRgb = (ref) => {
   const explodedValue = ref.get().match(/.{1,2}/g)
 
-  return RGB(Array.from(explodedValue, (val) => parseInt(val, 16)))
+  return RGB(...Array.from(explodedValue, (val) => parseInt(val, 16)))
 }
 
 const rgbToHsl = (ref) => {
@@ -61,7 +65,6 @@ const rgbToHsl = (ref) => {
     h /= 6
   }
 
-
   return HSL(h, s, l)
 }
 
@@ -87,23 +90,23 @@ const hslToRgb = (ref) => {
 
 const publicMethods = {
   toHex: function() {
-    if (this.format === 'rgb')
+    if (this.format() === 'rgb')
       return rgbToHex(this)
-    else if (this.format === 'hsl')
+    else if (this.format() === 'hsl')
       return rgbToHex(hslToRgb(this))
     return this
   },
   toRgb: function() {
-    if (this.format === 'hex')
+    if (this.format() === 'hex')
       return hexToRgb(this)
-    else if (this.format === 'hsl')
+    else if (this.format() === 'hsl')
       return hslToRgb(this)
     return this
   },
   toHsl: function() {
-    if (this.format === 'rgb')
+    if (this.format() === 'rgb')
       return rgbToHsl(this)
-    else if (this.format === 'hex')
+    else if (this.format() === 'hex')
       return rgbToHsl(hexToRgb(this))
     return this
   }

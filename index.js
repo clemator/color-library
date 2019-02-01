@@ -1,9 +1,9 @@
-import rgb from './src/rgbFactory'
-import hex from './src/hexFactory'
-import hsl from './src/hslFactory'
+const rgb = require('./src/rgbFactory')
+const hex = require('./src/hexFactory')
+const hsl = require('./src/hslFactory')
 
-(function() {
-  window.RGB = rgb
-  window.HEX = hex
-  window.HSL = hsl
-})()
+module.exports = {
+  RGB: rgb,
+  HEX: hex,
+  HSL: hsl
+}

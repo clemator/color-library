@@ -90,26 +90,22 @@
 /*!******************!*\
   !*** ./index.js ***!
   \******************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _src_rgbFactory__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./src/rgbFactory */ "./src/rgbFactory.js");
-/* harmony import */ var _src_rgbFactory__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_src_rgbFactory__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _src_hexFactory__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./src/hexFactory */ "./src/hexFactory.js");
-/* harmony import */ var _src_hexFactory__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_src_hexFactory__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _src_hslFactory__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./src/hslFactory */ "./src/hslFactory.js");
-/* harmony import */ var _src_hslFactory__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_src_hslFactory__WEBPACK_IMPORTED_MODULE_2__);
+var rgb = __webpack_require__(/*! ./src/rgbFactory */ "./src/rgbFactory.js");
 
+var hex = __webpack_require__(/*! ./src/hexFactory */ "./src/hexFactory.js");
 
+var hsl = __webpack_require__(/*! ./src/hslFactory */ "./src/hslFactory.js");
 
-
-(function (window) {
-  window.RGB = _src_rgbFactory__WEBPACK_IMPORTED_MODULE_0___default.a;
-  window.HEX = _src_hexFactory__WEBPACK_IMPORTED_MODULE_1___default.a;
-  window.HSL = _src_hslFactory__WEBPACK_IMPORTED_MODULE_2___default.a;
-})(window);
+module.exports = {
+  'color-library': {
+    RGB: rgb,
+    HEX: hex,
+    HSL: hsl
+  }
+};
 
 /***/ }),
 
@@ -118,7 +114,7 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./src/api.js ***!
   \********************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
 
@@ -127,6 +123,12 @@ function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread n
 function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+var RGB = __webpack_require__(/*! ./rgbFactory */ "./src/rgbFactory.js");
+
+var HEX = __webpack_require__(/*! ./hexFactory */ "./src/hexFactory.js");
+
+var HSL = __webpack_require__(/*! ./hslFactory */ "./src/hslFactory.js");
 
 var decimalToHex = function decimalToHex(dec) {
   var valToStr = dec.toString(16);
@@ -142,22 +144,22 @@ var hue2rgb = function hue2rgb(p, q, t) {
   return p;
 };
 
-var rgbToHex = function rgbToHex(value) {
-  return Array.from(value, decimalToHex).join('').toUpperCase();
+var rgbToHex = function rgbToHex(ref) {
+  return HEX(Array.from(ref.get(), decimalToHex).join('').toUpperCase());
 };
 
-var hexToRgb = function hexToRgb(value) {
-  var explodedValue = value.match(/.{1,2}/g);
-  return Array.from(explodedValue, function (val) {
+var hexToRgb = function hexToRgb(ref) {
+  var explodedValue = ref.get().match(/.{1,2}/g);
+  return RGB.apply(void 0, _toConsumableArray(Array.from(explodedValue, function (val) {
     return parseInt(val, 16);
-  });
+  })));
 };
 
-var rgbToHsl = function rgbToHsl(value) {
+var rgbToHsl = function rgbToHsl(ref) {
   var h = 0;
   var s = 0;
   var l;
-  var transformedValue = value.map(function (v) {
+  var transformedValue = ref.get().map(function (v) {
     return v / 255;
   });
   var r = transformedValue[0];
@@ -188,13 +190,13 @@ var rgbToHsl = function rgbToHsl(value) {
     h /= 6;
   }
 
-  return [h, s, l];
+  return HSL(h, s, l);
 };
 
-var hslToRgb = function hslToRgb(value) {
-  var h = value[0];
-  var s = value[1];
-  var l = value[2];
+var hslToRgb = function hslToRgb(ref) {
+  var h = ref.get()[0];
+  var s = ref.get()[1];
+  var l = ref.get()[2];
   var r = l;
   var g = l;
   var b = l;
@@ -207,21 +209,21 @@ var hslToRgb = function hslToRgb(value) {
     b = hue2rgb(p, q, h - 1 / 3);
   }
 
-  return [r * 255, g * 255, b * 255];
+  return RGB(r * 255, g * 255, b * 255);
 };
 
 var publicMethods = {
   toHex: function toHex() {
-    if (this.format === 'rgb') return rgbToHex(this.get());else if (this.format === 'hsl') return rgbToHex(hexToRgb(this.get()));
-    return '#' + this.get();
+    if (this.format() === 'rgb') return rgbToHex(this);else if (this.format() === 'hsl') return rgbToHex(hslToRgb(this));
+    return this;
   },
   toRgb: function toRgb() {
-    if (this.format === 'hex') return hexToRgb(this.get());else if (this.format === 'hsl') return hslToRgb(this.get());
-    return this.toString();
+    if (this.format() === 'hex') return hexToRgb(this);else if (this.format() === 'hsl') return hslToRgb(this);
+    return this;
   },
   toHsl: function toHsl() {
-    if (this.format === 'rgb') return rgbToHsl(this.get());else if (this.format === 'hex') return rgbToHsl(hexToRgb(this.get()));
-    return this.toString();
+    if (this.format() === 'rgb') return rgbToHsl(this);else if (this.format() === 'hex') return rgbToHsl(hexToRgb(this));
+    return this;
   }
 };
 module.exports = publicMethods;
@@ -258,6 +260,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var api = __webpack_require__(/*! ./api */ "./src/api.js");
 
+var colorFactory = __webpack_require__(/*! ./colorFactory */ "./src/colorFactory.js");
+
 var authorizedValueList = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
 
 var valueChecking = function valueChecking(v) {
@@ -276,8 +280,11 @@ var valueChecking = function valueChecking(v) {
 
 var hexPrototype = function hexPrototype(hex) {
   var value = valueChecking(hex);
+  var _format = 'hex';
   return _objectSpread({}, api, {
-    format: 'hex',
+    format: function format() {
+      return _format;
+    },
     set: function set(hexVal) {
       value = valueChecking(hexVal);
       return this;
@@ -291,7 +298,7 @@ var hexPrototype = function hexPrototype(hex) {
   });
 };
 
-module.exports = hexPrototype;
+module.exports = colorFactory(hexPrototype);
 
 /***/ }),
 
@@ -308,6 +315,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var api = __webpack_require__(/*! ./api */ "./src/api.js");
 
+var colorFactory = __webpack_require__(/*! ./colorFactory */ "./src/colorFactory.js");
+
 var valueChecking = function valueChecking(h, s, l) {
   try {
     if (typeof h === 'undefined' || typeof s === 'undefined' || typeof l === 'undefined') throw Error('HSL value is missing one or many arguments');
@@ -323,8 +332,11 @@ var valueChecking = function valueChecking(h, s, l) {
 
 var hslPrototype = function hslPrototype(h, s, l) {
   var value = valueChecking(h, s, l);
+  var _format = 'hsl';
   return _objectSpread({}, api, {
-    format: 'hsl',
+    format: function format() {
+      return _format;
+    },
     set: function set(h, s, l) {
       value = valueChecking(h, s, l);
       return this;
@@ -333,12 +345,12 @@ var hslPrototype = function hslPrototype(h, s, l) {
       return value;
     },
     toString: function toString() {
-      return "".concat(this.format, "(").concat(this.get().join(', '), ")");
+      return "".concat(this.format(), "(").concat(this.get().join(', '), ")");
     }
   });
 };
 
-module.exports = hslPrototype;
+module.exports = colorFactory(hslPrototype);
 
 /***/ }),
 
@@ -372,8 +384,11 @@ var valueChecking = function valueChecking(r, g, b) {
 
 var rgbPrototype = function rgbPrototype(r, g, b) {
   var value = valueChecking(r, g, b);
+  var _format = 'rgb';
   return _objectSpread({}, api, {
-    format: 'rgb',
+    format: function format() {
+      return _format;
+    },
     set: function set(r, g, b) {
       value = valueChecking(r, g, b);
       return this;
@@ -382,7 +397,7 @@ var rgbPrototype = function rgbPrototype(r, g, b) {
       return value;
     },
     toString: function toString() {
-      return "".concat(this.format, "(").concat(this.get().join(', '), ")");
+      return "".concat(this.format(), "(").concat(this.get().join(', '), ")");
     }
   });
 };

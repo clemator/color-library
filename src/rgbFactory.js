@@ -22,10 +22,13 @@ const valueChecking = (r, g, b) => {
 
 const rgbPrototype = (r, g, b) => {
   let value = valueChecking(r, g, b)
+  const format = 'rgb'
 
   return {
     ...api,
-    format: 'rgb',
+    format() {
+      return format
+    },
     set(r, g, b) {
       value = valueChecking(r, g, b)
       return this
@@ -34,7 +37,7 @@ const rgbPrototype = (r, g, b) => {
       return value;
     },
     toString() {
-      return `${this.format}(${this.get().join(', ')})`
+      return `${this.format()}(${this.get().join(', ')})`
     }
   }
 }

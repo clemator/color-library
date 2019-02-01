@@ -81,14 +81,6 @@ const red = HEX('00FF00').set('FF0000')
 const green = HSL(0.666, 1, 0.5).set(0.333, 1, 0.5)
 ```
 
-### .format()
-Return the color format:
-```javascript
-const red = RGB(255, 0, 0).format()        //-> "rgb"
-const green = HEX('00FF00').format()       //-> "hex"
-const blue = HSL(0.666, 1, 0.5).format()   //-> "hsl"
-```
-
 ### .toRgb()
 *Chainable*
 
@@ -111,4 +103,12 @@ var red = HSL(0, 0.5, 1).toHex().get()     //-> 'FF0000'
 Get color value to HSL format:
 ```javscript
 var red = RGB(255, 0, 0).toHsl().get()     //-> [0, 0.5, 1]
+```
+
+### .format
+The color format property:
+```javascript
+const red = RGB(255, 0, 0).format          //-> "rgb"
+const green = HEX('00FF00').format         //-> "hex"
+const blue = HSL(0.666, 1, 0.5).format     //-> "hsl"
 ```
