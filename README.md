@@ -105,10 +105,10 @@ Get color value to HSL format:
 var red = RGB(255, 0, 0).toHsl().get()     //-> [0, 0.5, 1]
 ```
 
-### .format
-The color format property:
+### .format()
+Return the color format property:
 ```javascript
-const red = RGB(255, 0, 0).format          //-> "rgb"
-const green = HEX('00FF00').format         //-> "hex"
-const blue = HSL(0.666, 1, 0.5).format     //-> "hsl"
+const red = RGB(255, 0, 0).format()        //-> "rgb"
+const green = HEX('00FF00').format()       //-> "hex"
+const blue = HSL(0.666, 1, 0.5).format()   //-> "hsl"
 ```
